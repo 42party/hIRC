@@ -1,4 +1,4 @@
-#include "header/ircserv.h"
+#include "header/ircserv.hpp"
 
 int main(int argc, char** argv)
 {

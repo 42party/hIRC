@@ -1,18 +1,18 @@
-NAME		=		ircserv
+NAME      := ircserv
+SRCS      := src/main.cpp
+HEADER    := src/header/ircserv.hpp
+OBJ_DIR   := src/objects
+OBJ       := $(SRCS:%=$(OBJ_DIR)/%.o)  # Corrected path
+DEPS      := $(OBJS:.o=.d)
+CPP       := c++
+CFLAGS    := -g -Wall -Wextra -Werror # -fsanitize=leak
+RM        := rm -rf
 
-SRCS		=		src/main.c								\
+$(OBJ_DIR):
+	@mkdir -p $@
 
-HEADER 		= 		src/header/ircserv.h
-
-OBJ_DIR		=		objects/
-
-OBJ			=		$(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
-
-CC			=		cc
-
-CFLAGS		=		-g -Wall -Wextra -Werror #-fsanitize=leak
-
-RM			=		rm -f
+$(OBJ_DIR)/%.o: %.cpp $(HEADER) | $(OBJ_DIR)
+	@$(CPP) $(CFLAGS) -c $< -o $@
 
 RED			=		\033[0;31m
 GREEN		=		\033[0;32m
@@ -22,12 +22,12 @@ MAGENTA		=		\033[0;35m
 CYAN		=		\033[0;36m
 RESET		=		\033[0m
 
-$(OBJ_DIR)%.o:	src/%.c
-		@mkdir -p $(OBJ_DIR)
-		@$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)%.cpp.o:	%.cpp
+		@mkdir -p $(dir $@)
+		@$(CPP) $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(SRCS) $(HEADER)
-	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
+	@$(CPP) $(CFLAGS) $(SRCS) -o $(NAME)
 	@echo "$(GREEN)compiler successfully!!$(RESET)"
 
 all: $(NAME)
@@ -39,15 +39,15 @@ val:
 	clear && valgrind --memcheck:leak-check=full --show-reachable=yes ./$(NAME)
 
 clean:
-	@echo "$(MAGENTA)\tCleaning .o ...$(RESET)"
-	@$(RM) $(OBJS)
+	@echo "$(RED)\tCleaning .o ...$(RESET)"
+	@$(RM) $(OBJ_DIR)
 	@echo "$(GREEN)\tObjects(.o) Deleted...$(RESET)"
 
 fclean: clean
 	@echo "$(RED)\tCleaning program and others$(RESET)"
 	@$(RM) $(NAME)
-	@$(RM) -r $(NAME).dSYM
-	@echo "$(RED)\tDone.$(RESET)"
+	@$(RM) $(NAME).dSYM
+	@echo "$(GREEN)\tDone.$(RESET)"
 
 re: fclean all
 
