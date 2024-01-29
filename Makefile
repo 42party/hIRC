@@ -6,7 +6,7 @@ HEADER 		= 		src/header/ircserv.h
 
 OBJ_DIR		=		objects/
 
-OBJ			=		$(addprefix $(OBJ_DIR), $(SRC:.c=.o))
+OBJ			=		$(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
 
 CC			=		cc
 
@@ -22,7 +22,7 @@ MAGENTA		=		\033[0;35m
 CYAN		=		\033[0;36m
 RESET		=		\033[0m
 
-$(OBJ_DIR)%.o:	%.c
+$(OBJ_DIR)%.o:	src/%.c
 		@mkdir -p $(OBJ_DIR)
 		@$(CC) $(CFLAGS) -c $< -o $@
 
