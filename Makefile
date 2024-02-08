@@ -1,11 +1,13 @@
 NAME      := ircserv
-SRCS      := src/main.cpp
+SRCS      :=	src/main.cpp
+							src/utils/server_connections.cpp
+
 HEADER    := src/header/ircserv.hpp
 OBJ_DIR   := src/objects
 OBJ       := $(SRCS:%=$(OBJ_DIR)/%.o)  # Corrected path
 DEPS      := $(OBJS:.o=.d)
 CPP       := c++
-CFLAGS    := -g -Wall -Wextra -Werror # -fsanitize=leak
+CFLAGS    := -std=c++98 -g -Wall -Wextra -Werror # -fsanitize=leak
 RM        := rm -rf
 
 $(OBJ_DIR):
