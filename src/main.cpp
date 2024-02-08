@@ -1,7 +1,7 @@
 #include "header/ircserv.hpp"
 
 // NAO PODEMOS DAR EXIT SOMOS OS SERVER MULA E NEM RETURN (0)
-int check_port_limit(int port)
+int check_port(int port)
 {
 	if (port < 1025 || port > 65535)
 		return (-1);
@@ -12,7 +12,7 @@ int verify_contents(int argc, char** argv)
 {
 	if (argc != 3)
 		return (-1);
-	if (check_port_limit(atoi(argv[1])) == -1)
+	if (check_port(atoi(argv[1])) == -1)
 		return (-1);
 	if (connection() == -1)
 		return (-1);

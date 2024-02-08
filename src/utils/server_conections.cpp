@@ -1,12 +1,23 @@
 #include "../header/ircserv.hpp"
+struct sockaddr {
+               sa_family_t sa_family;
+               char        sa_data[14];
+};
 
 int connection()
 {
-	// SE ACONTECER DE FICAR FUNCIONANDO OU NAO VEJA O PROTOCOLO
-	int myConnection = socket(AF_INET, SOCK_STREAM, 0);
+	struct sockaddr  my_addr;
 
- //socket -> bind -> port -> listen
-	return (myConnection);
+	int mySocket;
+	int myBind;
+	int myListen;
+	// SE ACONTECER DE FICAR FUNCIONANDO OU NAO VEJA O PROTOCOLO
+	//socket -> bind -> port -> listen
+	mySocket = socket(AF_INET, SOCK_STREAM, 0);
+	myBind = bind(mySocket, (struct sockaddr *) &my_addr, sizeof(my_addr));
+	myListen = listen(mySocket, 255);
+
+	return (0);
 }
 
 
